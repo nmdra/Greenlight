@@ -1,0 +1,194 @@
+openapi: 3.0.3
+info:
+  title: Movie API
+  description: API for managing movies and users.
+  version: 1.0.0
+paths:
+  /v1/healthcheck:
+    get:
+      summary: Show application health and version information
+      responses:
+        '200':
+          description: Health status and version information
+  /v1/movies:
+    get:
+      summary: Show the details of all movies
+      responses:
+        '200':
+          description: A list of movies
+    post:
+      summary: Create a new movie
+      requestBody:
+        description: Movie details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                releaseDate:
+                  type: string
+                  format: date
+              required:
+                - title
+                - releaseDate
+      responses:
+        '201':
+          description: Movie created
+  /v1/movies/{id}:
+    get:
+      summary: Show the details of a specific movie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Movie details
+    patch:
+      summary: Update the details of a specific movie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Movie details to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+              required:
+                - title
+      responses:
+        '200':
+          description: Movie updated
+    delete:
+      summary: Delete a specific movie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Movie deleted
+  /v1/users:
+    post:
+      summary: Register a new user
+      requestBody:
+        description: User registration details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '201':
+          description: User registered
+  /v1/users/activated:
+    put:
+      summary: Activate a specific user
+      requestBody:
+        description: User activation details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activationToken:
+                  type: string
+              required:
+                - activationToken
+      responses:
+        '200':
+          description: User activated
+  /v1/users/password:
+    put:
+      summary: Update the password for a specific user
+      requestBody:
+        description: Password update details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+              required:
+                - oldPassword
+                - newPassword
+      responses:
+        '200':
+          description: Password updated
+  /v1/tokens/authentication:
+    post:
+      summary: Generate a new authentication token
+      requestBody:
+        description: User authentication details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Authentication token generated
+  /v1/tokens/password-reset:
+    post:
+      summary: Generate a new password-reset token
+      requestBody:
+        description: Password reset details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+      responses:
+        '200':
+          description: Password-reset token generated
+  /debug/vars:
+    get:
+      summary: Display application metrics
+      responses:
+        '200':
+          description: Application metrics

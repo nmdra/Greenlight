@@ -1,0 +1,23 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: snipbox-dev
+    ports:
+      - "4000:4000" # default app port
+      # - "4001:4001" # air proxy port
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+    networks:
+      - greenlight-net
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
+
+networks:
+  greenlight-net:
+    driver: bridge
