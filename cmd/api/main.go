@@ -25,7 +25,7 @@ func main() {
 	var cfg config
 
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	
+
 	// Fetch environment variables with default values
 	portStr := os.Getenv("PORT")
 	if portStr == "" {
@@ -54,7 +54,7 @@ func main() {
 		Addr:         fmt.Sprintf(":%d", cfg.port),
 		Handler:      app.routes(),
 		IdleTimeout:  time.Minute,
-		ReadTimeout:  5  * time.Second,
+		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		ErrorLog:     slog.NewLogLogger(logger.Handler(), slog.LevelError),
 	}
